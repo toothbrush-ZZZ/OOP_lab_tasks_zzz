@@ -58,8 +58,8 @@ public class CheckoutEngine {
         double afterDiscounts = preDiscount - group - tier;
 
         double tax = 0.05 * afterDiscounts;
-
-        return Math.round(afterDiscounts+tax);
+        
+        return Math.round((afterDiscounts + tax) * 100.0) / 100.0;
     }
     
     public String getReceipt(Cart cart){
