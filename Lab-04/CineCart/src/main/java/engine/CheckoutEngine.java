@@ -61,9 +61,62 @@ public class CheckoutEngine {
 
         return Math.round(afterDiscounts+tax);
     }
-
+    
     public String getReceipt(Cart cart){
-
+        
+        String receipt = "===== Receipt =====\n";
+        
+        receipt += "Customer: " + cart.getOwner().getName() + "\n\n";
+        
+        receipt += "Tickets:\n";
+        
+        for(int i = 0; i < cart.getTicketCount(); i++){
+            receipt += cart.getTickets()[i].toString() + "\n";
+        }
+        
+        receipt += "\nConcessions:\n";
+        
+        for(int i = 0; i < cart.getItemCount(); i++){
+            
+            receipt += cart.getItems()[i].getName()
+                    + " x" + cart.getQtys()[i]
+                    + " - BDT "
+                    + String.format("%.2f",
+                    cart.getItems()[i].getUnitPrice()
+                            * cart.getQtys()[i])
+                    + "\n";
+        }
+        
+        double ticketSubtotal = cart.sumTicketsPaid();
+        double concessionSubtotal = cart.sumConcessionsRaw();
+        
+        double combo = 0;
+        
+        if(cart.hasItem("POP") && cart.hasItem("SODA")){
+            combo = 50.00;
+        }
+        
+        double preDiscount =
+                ticketSubtotal + concessionSubtotal - combo;
+        
+        double group = 0;
+        
+        if(cart.getTicketCount() >= 4){
+            group = 0.10 * preDiscount;
+        }
+        
+        double tier =
+                cart.getOwner().getTierDiscount() * preDiscount;
+        
+        double totalDiscount = combo + group + tier;
+        
+        receipt += "\nDiscount: BDT "
+                + String.format("%.2f", totalDiscount);
+        
+        receipt += "\nTotal: BDT "
+                + String.format("%.2f", checkout(cart));
+        
+        return receipt;
     }
 }
 
