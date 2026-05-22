@@ -45,7 +45,7 @@ public class Movie{
 
     // "Inception (PG-13) 148min - BDT 350.00".
     public String toString(){
-        return String.format("%s (%s) %d"+"min - BDT %f",
+        return String.format("%s (%s) %d"+"min - BDT %.2f",
                 getTitle(),
                 getRating(),
                 getDurationMin(),
