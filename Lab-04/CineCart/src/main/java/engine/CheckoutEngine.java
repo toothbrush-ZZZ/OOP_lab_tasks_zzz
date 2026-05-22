@@ -64,27 +64,23 @@ public class CheckoutEngine {
     
     public String getReceipt(Cart cart){
         
-        String receipt = "===== Receipt =====\n";
+        StringBuilder receipt = new StringBuilder("===== Receipt =====\n");
         
-        receipt += "Customer: " + cart.getOwner().getName() + "\n\n";
+        receipt.append("Customer: ").append(cart.getOwner().getName()).append("\n\n");
         
-        receipt += "Tickets:\n";
+        receipt.append("Tickets:\n");
         
         for(int i = 0; i < cart.getTicketCount(); i++){
-            receipt += cart.getTickets()[i].toString() + "\n";
+            receipt.append(cart.getTickets()[i].toString()).append("\n");
         }
         
-        receipt += "\nConcessions:\n";
+        receipt.append("\nConcessions:\n");
         
         for(int i = 0; i < cart.getItemCount(); i++){
             
-            receipt += cart.getItems()[i].getName()
-                    + " x" + cart.getQtys()[i]
-                    + " - BDT "
-                    + String.format("%.2f",
+            receipt.append(cart.getItems()[i].getName()).append(" x").append(cart.getQtys()[i]).append(" - BDT ").append(String.format("%.2f",
                     cart.getItems()[i].getUnitPrice()
-                            * cart.getQtys()[i])
-                    + "\n";
+                            * cart.getQtys()[i])).append("\n");
         }
         
         double ticketSubtotal = cart.sumTicketsPaid();
@@ -110,13 +106,11 @@ public class CheckoutEngine {
         
         double totalDiscount = combo + group + tier;
         
-        receipt += "\nDiscount: BDT "
-                + String.format("%.2f", totalDiscount);
+        receipt.append("\nDiscount: BDT ").append(String.format("%.2f", totalDiscount));
         
-        receipt += "\nTotal: BDT "
-                + String.format("%.2f", checkout(cart));
+        receipt.append("\nTotal: BDT ").append(String.format("%.2f", checkout(cart)));
         
-        return receipt;
+        return receipt.toString();
     }
 }
 
