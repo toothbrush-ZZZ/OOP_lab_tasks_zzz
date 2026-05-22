@@ -22,36 +22,70 @@ public class Cart {
         itemCount = 0;
     }
 
-    public void addTicket(Ticket t){
+    /*public void addTicket(Ticket t){
         if(ticketCount < MAX_TICKETS){
             tickets[ticketCount] = t;
             ticketCount++;
         }
+    }*/
+    public boolean addTicket(Ticket t) {
+        if (ticketCount >= MAX_TICKETS) return false;
+        tickets[ticketCount++] = t;
+        return true;
     }
 
-    public void addItem(ConcessionItem c, int qty){
+    /*public void addItem(ConcessionItem c, int qty){
         if(itemCount>=MAX_ITEMS || qty <= 0) return;
 
         items[itemCount] = c;
         qtys[itemCount] = qty;
         itemCount++;
+    }*/
+    public boolean addItem(ConcessionItem c, int qty) {
+        if (qty <= 0)              return false;
+        if (itemCount >= MAX_ITEMS) return false;
+        items[itemCount]  = c;
+        qtys[itemCount]   = qty;
+        itemCount++;
+        return true;
     }
+    
     //getOwner(), getTickets(), getTicketCount(), getItems(), getQtys(), getItemCount().
     public Customer getOwner(){
         return owner;
     }
-    public Ticket[] getTickets(){
-        return tickets;
-    }
     public int getTicketCount(){
         return ticketCount;
+    }
+    
+    /*public Ticket[] getTickets(){
+        return tickets;
     }
     public ConcessionItem[] getItems(){
         return items;
     }
     public int[] getQtys(){
         return qtys;
+    }*/
+    // Defensive copies — returns exact-sized array, not the full MAX array
+    public Ticket[] getTickets() {
+        Ticket[] copy = new Ticket[ticketCount];
+        System.arraycopy(tickets, 0, copy, 0, ticketCount);
+        return copy;
     }
+    
+    public ConcessionItem[] getItems() {
+        ConcessionItem[] copy = new ConcessionItem[itemCount];
+        System.arraycopy(items, 0, copy, 0, itemCount);
+        return copy;
+    }
+    
+    public int[] getQtys() {
+        int[] copy = new int[itemCount];
+        System.arraycopy(qtys, 0, copy, 0, itemCount);
+        return copy;
+    }
+    
     public int getItemCount(){
         return itemCount;
     }
