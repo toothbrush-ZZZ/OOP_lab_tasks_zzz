@@ -28,6 +28,6 @@ public class Ticket {
     }
     //"T17 - R3C5 @ BDT 455.00".
     public String toString(){
-        return String.format("T%d - R%dC%d @ BDT %f",showtime.getId(),row,col,pricePaid);
+        return String.format("T%d - R%dC%d @ BDT %.2f",showtime.getId(),row,col,pricePaid);
     }
 }
